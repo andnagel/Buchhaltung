@@ -6,6 +6,7 @@ import profiles
 from abc import ABC
 from datetime import datetime
 
+
 # Währung Setzen
 locale.setlocale(locale.LC_ALL, 'de_DE')
 
@@ -60,9 +61,7 @@ class NeuesProfilMenu(Menu):
         super().menuAnzeigen()
 
         UeberschriftAufrufen('Profil erstellen', None, True)
-        #print('Profil erstellen')
-        #print('---------------------')
-        #print()
+
         profil_name = input('Profilname: ')
         start_guthaben = input('Startguthaben: ')
         print()
@@ -81,8 +80,6 @@ class LadeProfilMenu(Menu):
         super().menuAnzeigen()
 
         UeberschriftAufrufen('Vorhandene Profile:', None, True)
-        #print('Vorhandene Profile:')
-        #print('---------------------')
 
         dir_path = f".\Profile\\"
         result = next(os.walk(dir_path))[2]
@@ -113,11 +110,7 @@ class AktuellesProfilMenu(Menu):
         super().menuAnzeigen()
 
         UeberschriftAufrufen('Was möchtest Du tun?', self, False)
-        #print(f'Aktuelles Profil: {self.profil.name}')
-        #print(f'Aktueller Kontostand: {self.profil.guthaben} EURO')
-        #print()
-        #print('Was möchtest Du tun?')
-        #print('---------------------')
+
         print('[1] Neue Transaktion')
         print('[2] Zeige Transaktionen')
         print('[3] zurück zum Startmenu')
@@ -126,28 +119,6 @@ class AktuellesProfilMenu(Menu):
         eingabe = input('Eingabe: ')
 
         Switch_Auswahl(eingabe, self)
-#        if eingabe == '1':
-#            menu = NeueTransaktionMenu(self.profil)
-#            menu.menuAnzeigen()
-#
-#        elif eingabe == '2':
-#            menu = TransaktionAnzeigenMenu(self.profil)
-#            menu.menuAnzeigen()
-#            pass
-#
-#        elif eingabe == '3':
-#            menu = StartMenu()
-#            menu.menuAnzeigen()
-#
-#        else:
-#            print()
-#            print('Ungültige Eingabe!')
-#            print()
-#            print('mit ESC bestätigen und nochmal versuchen')
-#            keyboard.wait("esc")
-#            clear()
-#            menu = AktuellesProfilMenu(self.profil)
-#            menu.menuAnzeigen()
 
 class NeueTransaktionMenu(Menu):
     def __init__(self, profil):
@@ -228,7 +199,6 @@ def Switch_Auswahl(no, self):
         clear()
         menu = AktuellesProfilMenu(self.profil)
         menu.menuAnzeigen()
-
 
 def UeberschriftAufrufen(zwischentext, classe, erweiterung=True,):
 
