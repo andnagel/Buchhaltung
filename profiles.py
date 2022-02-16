@@ -1,5 +1,8 @@
 import jsonpickle
+import locale
 
+# Währung Setzen
+locale.setlocale(locale.LC_ALL, 'de_DE')
 
 class Profil(object):
     def __init__(self, name, guthaben):
@@ -15,7 +18,8 @@ class Transaktion():
         self.datum = datum
 
     def __str__(self):
-        return f'Name: {self.name} | Betrag: {self.betrag} Euro | Datum: {self.datum}'
+        ausgabeBetrag=locale.currency(float(self.betrag), grouping=True)
+        return f'Name: {self.name}\t| Betrag: {ausgabeBetrag}\t| Datum: {self.datum}'
 
 
 class ProfilManager():
