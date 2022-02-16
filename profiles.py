@@ -19,7 +19,7 @@ class Transaktion():
 
     def __str__(self):
         ausgabeBetrag=locale.currency(float(self.betrag), grouping=True)
-        return f'Name: {self.name} | Betrag: {ausgabeBetrag} | Datum: {self.datum}'
+        return f'Name: {self.name}\t| Betrag: {ausgabeBetrag}\t| Datum: {self.datum}'
 
 
 class ProfilManager():

@@ -70,7 +70,8 @@ class NeuesProfilMenu(Menu):
         profiles.ProfilManager.erstelle_profil(profil_name, start_guthaben)
 
         print(f'Profil {profil_name}.json wurde angelegt!')
-        input('mit ENTER bestätigen und weiter zu "Profil laden"')
+        print('mit ENTER bestätigen und weiter zu "Profil laden"')
+        keyboard.wait("enter")
 
         menu = LadeProfilMenu()
         menu.menuAnzeigen()
@@ -86,16 +87,16 @@ class LadeProfilMenu(Menu):
         dir_path = f".\Profile\\"
         result = next(os.walk(dir_path))[2]
         for item in result:
-            print(item)
+            benutzer=item.split('.')[0]
+            print(benutzer)
 
         print(TRENNER*22)
         print()
-        print('Wähle dein Profil (mit ENTER zurück zum Startmenu):')
+        print('Wähle dein Profil (mit Enter zurück zum Startmenu):')
         name = input()
-
-        if name is '':
-            menu = StartMenu()
-            menu.menuAnzeigen()
+        if name == '':
+                menu = StartMenu()
+                menu.menuAnzeigen()
 
         else:
             profil = profiles.ProfilManager.lade_profil(name)
@@ -124,28 +125,29 @@ class AktuellesProfilMenu(Menu):
 
         eingabe = input('Eingabe: ')
 
-        if eingabe == '1':
-            menu = NeueTransaktionMenu(self.profil)
-            menu.menuAnzeigen()
-
-        elif eingabe == '2':
-            # menu = TransaktionAnzeigenMenu()
-            # menu.menuAnzeigen()
-            pass
-
-        elif eingabe == '3':
-            menu = StartMenu()
-            menu.menuAnzeigen()
-
-        else:
-            print()
-            print('Ungültige Eingabe!')
-            print()
-            print('mit ENTER bestätigen und nochmal versuchen')
-            keyboard.wait("enter")
-            clear()
-            menu = AktuellesProfilMenu(self.profil)
-            menu.menuAnzeigen()
+        Switch_Auswahl(eingabe, self)
+#        if eingabe == '1':
+#            menu = NeueTransaktionMenu(self.profil)
+#            menu.menuAnzeigen()
+#
+#        elif eingabe == '2':
+#            menu = TransaktionAnzeigenMenu(self.profil)
+#            menu.menuAnzeigen()
+#            pass
+#
+#        elif eingabe == '3':
+#            menu = StartMenu()
+#            menu.menuAnzeigen()
+#
+#        else:
+#            print()
+#            print('Ungültige Eingabe!')
+#            print()
+#            print('mit ESC bestätigen und nochmal versuchen')
+#            keyboard.wait("esc")
+#            clear()
+#            menu = AktuellesProfilMenu(self.profil)
+#            menu.menuAnzeigen()
 
 class NeueTransaktionMenu(Menu):
     def __init__(self, profil):
@@ -173,21 +175,21 @@ class NeueTransaktionMenu(Menu):
             print(transaktion)
             neues_guthaben=locale.currency(float(self.profil.guthaben), grouping=True)
             print(f'Aktuelles Guthaben: {neues_guthaben}')
-            print('\n mit \'J\' neue Buchung\noder\nmit \'N\' zurück zum Menü')
+            print('\nmit \'J\' neue Buchung\toder\nmit \'N\' zurück zum Menü')
             auswahl = input('Auswahl: ')
             if (auswahl == 'N' or auswahl == 'n'):
                 break
             elif (auswahl == 'J' or auswahl == 'j'):
                 continue
             else:
-                print('Falsche eingabe, zurück ins Menü\nWeiter mit ENTER-Taste')
-                keyboard.wait("enter")
+                print('Falsche eingabe, zurück ins Menü\nWeiter mit ESC-Taste')
+                keyboard.wait("esc")
                 break
         clear()
         menu = AktuellesProfilMenu(self.profil)
         menu.menuAnzeigen()
 
-class TransaktionsMenu(Menu):
+class TransaktionAnzeigenMenu(Menu):
     def __init__(self, profil):
         super().__init__()
         self.profil = profil
@@ -195,8 +197,37 @@ class TransaktionsMenu(Menu):
     def menuAnzeigen(self):
         super().menuAnzeigen()
 
-        UeberschriftAufrufen('Transaktions Übersicht', None, True)
+        UeberschriftAufrufen('Transaktions Übersicht', self, False)
+        for transaktion in self.profil.transaktionen:
+            print(transaktion)
+        print(TRENNER*22)
+        print('Weiter mit ESC-Taste')
+        keyboard.wait("esc")
+        clear()
+        menu = AktuellesProfilMenu(self.profil)
+        menu.menuAnzeigen()
 
+def Switch_Auswahl(no, self):
+    if (no=='1'):
+            menu = NeueTransaktionMenu(self.profil)
+            menu.menuAnzeigen()
+    elif (no=='2'):
+        menu = TransaktionAnzeigenMenu(self.profil)
+        menu.menuAnzeigen()
+        #pass
+    elif (no=='3'):
+        menu = StartMenu()
+        menu.menuAnzeigen()
+
+    else:
+        print()
+        print('Ungültige Eingabe!')
+        print()
+        print('mit ESC bestätigen und nochmal versuchen')
+        keyboard.wait("esc")
+        clear()
+        menu = AktuellesProfilMenu(self.profil)
+        menu.menuAnzeigen()
 
 
 def UeberschriftAufrufen(zwischentext, classe, erweiterung=True,):
